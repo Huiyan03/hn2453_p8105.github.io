@@ -9,5 +9,46 @@ output:
 # This is Huiyan Ni's resume
 
 ## Education
+**Columbia University**, Master of Science in Biostatistic, expected graduate in May 2026.
+
+
+**The Ohio State University (OSU)**, Bachelor of Science in Data Analytics, graduated in May 2024.
+
+## Skills
+**Programming Skills**: R,SQL,SPSS, JAVA.
+
+**Analysis Techniques**: Classical & Penalized Regression Methods (Lasso, Ridge), 
+Decision Tree, Random Forest, Gradient Boosting Decision Tree, K Nearest Neighbors,
+K-means, Latent Dirichlet Allocation (LDA).
+
+## Work Experience
+
+**The First Affiliated Hospital of Zhengzhou University**: Research on the Safety of COVID-19 Vaccination for Rheumatism Patients, May 2023 - Nov 2023.
+
+**1.**: Investigated COVID-19 vaccination safety and risk of exacerbating symptoms in rheumatic
+patients.
+**2.**: Designed and collected 1,711 questionnaires from patients with rheumatic diseases, such as
+rheumatoid arthritis and spondyloarthritis, and 296 family members of patients as the control group.
+**3.**: Grouped data by factors including patients’ demographics, allergy history, vaccination status,
+drug usage, clinical reaction after vaccination, etc.
+**4.**:Performed frequencies analysis, chi-squared testing, and crosstab analysis on the obtained
+dataset with SPSS, compared quantitative data between groups using chi-square test, and applied multinomial Logistic regression analysis to extract influential factors of patients’ clinical reaction after vaccination.
+**5.**:Proved the COVID-19 vaccine’s safety for patients with rheumatic diseases.
+
+**China Construction Bank(BBC)**: Fintech Intern, Jul 2023 - Aug 2024
+
+**1.**:Familiarized with CCB’s deposit and loan business and digital tools, etc.
+**2.**:Using the "precision marketing system" and "online modeling" tools, tagging data, mining
+potential customers, and reaching selected customers through marketing information to attract
+them to increase deposits.
+**3.**:Write algorithms for inclusive finance loan business. Use MySQL to preprocess and filter
+appropriate data from internal databases, identify target customers for inclusive loans that comply with our bank's credit policies, and index the data for branch promotion.
+
+
+
+
+
+
+
 
 

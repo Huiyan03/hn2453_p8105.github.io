@@ -8,5 +8,13 @@ output:
 
 # This is Huiyan Ni' website
 
+## Links to other professional networks
+
+* [Google](https://www.google.com/)
+* [P8105](https://p8105.com/schedule.html)
+
+## Link to page of resume
+
+[Resume](resume.html)
 
 
