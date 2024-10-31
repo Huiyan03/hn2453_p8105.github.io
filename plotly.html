@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>plotly</title>
+
+<script src="site_libs/header-attrs-2.28/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cerulean.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet" />
+<script src="site_libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
+<script src="site_libs/plotly-binding-4.10.4/plotly.js"></script>
+<script src="site_libs/typedarray-0.1/typedarray.min.js"></script>
+<link href="site_libs/crosstalk-1.2.1/css/crosstalk.min.css" rel="stylesheet" />
+<script src="site_libs/crosstalk-1.2.1/js/crosstalk.min.js"></script>
+<link href="site_libs/plotly-htmlwidgets-css-2.11.1/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="site_libs/plotly-main-2.11.1/plotly-latest.min.js"></script>
+<link href="site_libs/font-awesome-6.4.2/css/all.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet" />
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Home</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="resume.html">Resume</a>
+</li>
+<li>
+  <a href="dashboard.html">Dashboard</a>
+</li>
+<li>
+  <a href="mailto:&lt;huiyan.ni.2001@gmail.com&gt;">
+    <span class="fa fa-envelope fa-lg"></span>
+     
+  </a>
+</li>
+<li>
+  <a href="https://github.com/Huiyan03">
+    <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
+<li>
+  <a href="https://www.google.com/">
+    <span class="fa fa-brands fa-google"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">plotly</h1>
+
+</div>
+
+
+<div id="plotly-of-ny-noaa" class="section level1">
+<h1>Plotly of NY NOAA</h1>
+<p>Import data and select only 10 Weather station data from all large
+dataset.</p>
+<pre class="r"><code>nynoaa &lt;- read_csv(&quot;data/nynoaadat.csv&quot;,
+                   col_names = TRUE,
+                   na = c(&quot;&quot;,&quot;NA&quot;)) |&gt;
+          janitor::clean_names() |&gt;
+          drop_na()</code></pre>
+<pre><code>## Rows: 2595176 Columns: 7
+## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## chr  (1): id
+## dbl  (5): prcp, snow, snwd, tmax, tmin
+## date (1): date
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<pre class="r"><code>id_10 = unique(nynoaa$id)[1:10]
+nynoaa$year = year(nynoaa$date)
+nynoaa$month = month(nynoaa$date)
+
+nynoaa = nynoaa|&gt;
+  filter(id==id_10) |&gt;
+  filter(year&gt;=1981 &amp; year &lt;= 1990)</code></pre>
+<p>Create new year variable and month variable, and then make a bar plot
+about Total Precipitation (tenths of mm) in 1981 in Different
+Stations</p>
+<pre class="r"><code>nynoaa |&gt;
+  filter(year == &quot;1981&quot;)|&gt;
+  group_by(id)|&gt;
+  summarise(total_prcp=sum(prcp))|&gt;
+  plot_ly(
+    x = ~id, y = ~total_prcp, type = &quot;bar&quot;)|&gt;
+    layout(title = &quot;Total Precipitation (tenths of mm) in 1981 in Different Stations&quot;)</code></pre>
+<div class="plotly html-widget html-fill-item" id="htmlwidget-7ce86079b35c42beb5fc" style="width:672px;height:480px;"></div>
+<script type="application/json" data-for="htmlwidget-7ce86079b35c42beb5fc">{"x":{"visdat":{"3fdb7824afef":["function () ","plotlyVisDat"]},"cur_data":"3fdb7824afef","attrs":{"3fdb7824afef":{"x":{},"y":{},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"bar"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Total Precipitation (tenths of mm) in 1981 in Different Stations","xaxis":{"domain":[0,1],"automargin":true,"title":"id","type":"category","categoryorder":"array","categoryarray":["USC00300023","USC00300055","USC00300063","USC00300085","USC00300093","USC00300183","USC00300220","USC00300331"]},"yaxis":{"domain":[0,1],"automargin":true,"title":"total_prcp"},"hovermode":"closest","showlegend":false},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":["USC00300023","USC00300055","USC00300063","USC00300085","USC00300093","USC00300183","USC00300220","USC00300331"],"y":[0,1130,1169,1469,645,397,572,595],"type":"bar","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(31,119,180,1)"}},"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<p>Make a plot about Precipitation (tenths of mm) in 1990 in some
+special Weather station ID.</p>
+<pre class="r"><code>nynoaa |&gt;
+  filter(year == &quot;1990&quot;)|&gt;
+  plot_ly(
+    x = ~month, y = ~prcp, type = &quot;scatter&quot;, mode = &quot;markers&quot;,
+    color = ~id,alpha = 0.5)|&gt;
+    layout(title = &quot;Monthly Precipitation (tenths of mm) in 1990&quot;)</code></pre>
+<div class="plotly html-widget html-fill-item" id="htmlwidget-19ab58fd8eee2fa8494c" style="width:672px;height:480px;"></div>
+<script type="application/json" data-for="htmlwidget-19ab58fd8eee2fa8494c">{"x":{"visdat":{"3fdb7bfd70a5":["function () ","plotlyVisDat"]},"cur_data":"3fdb7bfd70a5","attrs":{"3fdb7bfd70a5":{"x":{},"y":{},"mode":"markers","color":{},"alpha":0.5,"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Monthly Precipitation (tenths of mm) in 1990","xaxis":{"domain":[0,1],"automargin":true,"title":"month"},"yaxis":{"domain":[0,1],"automargin":true,"title":"prcp"},"hovermode":"closest","showlegend":true},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"x":[1,1,1,2,2,2,3,3,4,4,4,5,5,5,6,6,6,7,7,7,9,9,9,10,10,10,12,12,12],"y":[0,0,0,0,216,0,0,56,0,0,0,0,140,0,0,25,0,0,343,0,28,264,0,160,0,0,0,109,0],"mode":"markers","type":"scatter","name":"USC00300023","marker":{"color":"rgba(102,194,165,0.5)","line":{"color":"rgba(102,194,165,1)"}},"textfont":{"color":"rgba(102,194,165,0.5)"},"error_y":{"color":"rgba(102,194,165,0.5)"},"error_x":{"color":"rgba(102,194,165,0.5)"},"line":{"color":"rgba(102,194,165,0.5)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[1,1,1,2,2,3,3,3,3,4,4,5,5,5,6,6,6,7,7,7,7,8,8,8,9,9,9,10,10,10,11,11,11,12,12],"y":[48,0,43,33,127,0,20,0,15,216,0,0,0,0,0,81,0,203,0,0,117,0,0,0,23,30,0,130,20,3,20,0,0,0,5],"mode":"markers","type":"scatter","name":"USC00300055","marker":{"color":"rgba(239,150,106,0.5)","line":{"color":"rgba(239,150,106,1)"}},"textfont":{"color":"rgba(239,150,106,0.5)"},"error_y":{"color":"rgba(239,150,106,0.5)"},"error_x":{"color":"rgba(239,150,106,0.5)"},"line":{"color":"rgba(239,150,106,0.5)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[3,3,3,5,5,5,6,6,6,7,7,7,9,9,9,10,10,10,11,11,11,12,12,12],"y":[0,124,0,102,102,0,0,0,0,0,0,0,0,0,0,0,0,0,165,46,0,0,0,0],"mode":"markers","type":"scatter","name":"USC00300063","marker":{"color":"rgba(178,156,177,0.5)","line":{"color":"rgba(178,156,177,1)"}},"textfont":{"color":"rgba(178,156,177,0.5)"},"error_y":{"color":"rgba(178,156,177,0.5)"},"error_x":{"color":"rgba(178,156,177,0.5)"},"line":{"color":"rgba(178,156,177,0.5)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[1,1,4,4,4,5,5,5,6,6,6,7,7,7,8,8,8,9,9,9,10,10,10,11,11,11,12,12,12],"y":[25,18,61,0,5,3,30,0,0,0,0,5,3,0,0,145,0,0,0,53,0,386,64,0,18,0,0,0,132],"mode":"markers","type":"scatter","name":"USC00300085","marker":{"color":"rgba(201,148,198,0.5)","line":{"color":"rgba(201,148,198,1)"}},"textfont":{"color":"rgba(201,148,198,0.5)"},"error_y":{"color":"rgba(201,148,198,0.5)"},"error_x":{"color":"rgba(201,148,198,0.5)"},"line":{"color":"rgba(201,148,198,0.5)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[2,2,3,3,4,4,4,5,5,5,6,6,6,7,7,7,8,8,8,8,10,10,10,11,11,12,12,12],"y":[0,0,0,0,30,0,0,0,25,0,0,0,0,10,163,0,0,0,0,0,267,0,0,0,0,30,10,0],"mode":"markers","type":"scatter","name":"USC00300093","marker":{"color":"rgba(205,180,144,0.5)","line":{"color":"rgba(205,180,144,1)"}},"textfont":{"color":"rgba(205,180,144,0.5)"},"error_y":{"color":"rgba(205,180,144,0.5)"},"error_x":{"color":"rgba(205,180,144,0.5)"},"line":{"color":"rgba(205,180,144,0.5)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[1,1,1,2,2,3,3,3,4,4,4,5,5,5,6,6,6,7,7,7,8,8,8,9,9,9,10,10,10,11,11,11,12,12,12],"y":[0,0,25,0,0,0,0,5,10,0,0,0,33,0,0,0,0,0,0,0,0,0,0,0,0,25,0,107,51,0,0,86,203,0,104],"mode":"markers","type":"scatter","name":"USC00300183","marker":{"color":"rgba(202,217,72,0.5)","line":{"color":"rgba(202,217,72,1)"}},"textfont":{"color":"rgba(202,217,72,0.5)"},"error_y":{"color":"rgba(202,217,72,0.5)"},"error_x":{"color":"rgba(202,217,72,0.5)"},"line":{"color":"rgba(202,217,72,0.5)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[1,1,1,2,2,3,3,3,3,4,4,4,5,5,5,6,6,6,7,7,7,8,8,8,9,9,9,10,10,10,11,11,11,12,12,12],"y":[30,0,203,0,0,0,28,0,66,71,0,0,0,13,104,43,84,0,300,0,0,0,0,188,43,41,5,0,0,0,79,0,0,3,178,0],"mode":"markers","type":"scatter","name":"USC00300220","marker":{"color":"rgba(250,212,80,0.5)","line":{"color":"rgba(250,212,80,1)"}},"textfont":{"color":"rgba(250,212,80,0.5)"},"error_y":{"color":"rgba(250,212,80,0.5)"},"error_x":{"color":"rgba(250,212,80,0.5)"},"line":{"color":"rgba(250,212,80,0.5)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[1,1,1,1,2,2,4,4,4,6,6,6,7,7,7,8,8,8,8,9,9,9,10,10,10,11,11,11,12,12,12],"y":[8,28,10,0,41,0,28,0,0,0,0,28,0,0,0,0,0,0,0,0,3,284,41,0,0,0,0,0,0,0,36],"mode":"markers","type":"scatter","name":"USC00300321","marker":{"color":"rgba(223,194,152,0.5)","line":{"color":"rgba(223,194,152,1)"}},"textfont":{"color":"rgba(223,194,152,0.5)"},"error_y":{"color":"rgba(223,194,152,0.5)"},"error_x":{"color":"rgba(223,194,152,0.5)"},"line":{"color":"rgba(223,194,152,0.5)"},"xaxis":"x","yaxis":"y","frame":null},{"x":[1,1,2,2,2,3,3,3,4,4,4,5,5,5,6,6,6,7,7,7,8,8,8,9,9,9,10,10,10,10,11,11,11,12,12,12],"y":[3,15,104,0,10,13,0,0,226,0,0,0,284,0,0,0,117,0,30,104,0,0,0,0,0,0,61,10,0,0,330,0,0,0,0,20],"mode":"markers","type":"scatter","name":"USC00300331","marker":{"color":"rgba(179,179,179,0.5)","line":{"color":"rgba(179,179,179,1)"}},"textfont":{"color":"rgba(179,179,179,0.5)"},"error_y":{"color":"rgba(179,179,179,0.5)"},"error_x":{"color":"rgba(179,179,179,0.5)"},"line":{"color":"rgba(179,179,179,0.5)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<p>Make Boxplot for Maximum temperature from 1981 to 1990 in different
+stations.</p>
+<pre class="r"><code>  nynoaa |&gt; 
+  plot_ly(x = ~id, y = ~tmax, color = ~id, type = &quot;box&quot;)|&gt;
+  layout(title = &quot;Boxplot for Maximum temperature from 1981 to 1990 in different stations&quot;)</code></pre>
+<div class="plotly html-widget html-fill-item" id="htmlwidget-ea023108a795ce2deae5" style="width:672px;height:480px;"></div>
+<script type="application/json" data-for="htmlwidget-ea023108a795ce2deae5">{"x":{"visdat":{"3fdb2f59a03a":["function () ","plotlyVisDat"]},"cur_data":"3fdb2f59a03a","attrs":{"3fdb2f59a03a":{"x":{},"y":{},"color":{},"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"box"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Boxplot for Maximum temperature from 1981 to 1990 in different stations","xaxis":{"domain":[0,1],"automargin":true,"title":"id","type":"category","categoryorder":"array","categoryarray":["USC00300023","USC00300028","USC00300055","USC00300063","USC00300085","USC00300093","USC00300183","USC00300220","USC00300321","USC00300331"]},"yaxis":{"domain":[0,1],"automargin":true,"title":"tmax"},"hovermode":"closest","showlegend":true},"source":"A","config":{"modeBarButtonsToAdd":["hoverclosest","hovercompare"],"showSendToCloud":false},"data":[{"fillcolor":"rgba(102,194,165,0.5)","x":["USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023","USC00300023"],"y":[-122,78,167,283,278,256,-11,106,83,183,233,256,211,189,283,200,211,183,233,217,-6,39,56,28,100,78,156,56,189,283,322,339,278,322,217,272,294,250,133,278,156,106,267,322,294,267,289,267,283,278,267,189,239,144,111,-83,-22,61,256,172,233,256,289,300,206,272,317,289,233,244,167,133,128,228,217,100,139,-22,-94,-56,-89,22,111,6,22,61,-111,17,178,61,167,300,156,222,183,200,300,228,278,267,272,250,233,161,178,206,139,122,128,-28],"type":"box","name":"USC00300023","marker":{"color":"rgba(102,194,165,1)","line":{"color":"rgba(102,194,165,1)"}},"line":{"color":"rgba(102,194,165,1)"},"xaxis":"x","yaxis":"y","frame":null},{"fillcolor":"rgba(228,156,113,0.5)","x":["USC00300028","USC00300028","USC00300028","USC00300028","USC00300028","USC00300028","USC00300028","USC00300028","USC00300028","USC00300028","USC00300028","USC00300028","USC00300028","USC00300028","USC00300028","USC00300028","USC00300028","USC00300028","USC00300028","USC00300028","USC00300028","USC00300028","USC00300028","USC00300028","USC00300028","USC00300028","USC00300028","USC00300028","USC00300028","USC00300028","USC00300028","USC00300028","USC00300028","USC00300028","USC00300028","USC00300028","USC00300028","USC00300028","USC00300028","USC00300028","USC00300028","USC00300028","USC00300028","USC00300028","USC00300028","USC00300028","USC00300028","USC00300028","USC00300028","USC00300028","USC00300028","USC00300028","USC00300028","USC00300028","USC00300028","USC00300028","USC00300028","USC00300028","USC00300028","USC00300028","USC00300028","USC00300028","USC00300028","USC00300028","USC00300028","USC00300028","USC00300028","USC00300028","USC00300028","USC00300028","USC00300028"],"y":[78,206,250,78,72,200,250,272,250,217,244,256,272,272,261,250,161,172,144,78,106,122,111,67,6,-33,-6,11,28,44,144,128,161,133,144,167,244,194,283,222,294,294,256,250,267,228,239,122,156,117,111,117,100,122,94,44,228,33,94,100,289,217,283,311,256,311,328,189,244,228,206],"type":"box","name":"USC00300028","marker":{"color":"rgba(228,156,113,1)","line":{"color":"rgba(228,156,113,1)"}},"line":{"color":"rgba(228,156,113,1)"},"xaxis":"x","yaxis":"y","frame":null},{"fillcolor":"rgba(201,152,157,0.5)","x":["USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055","USC00300055"],"y":[-67,-33,44,-106,17,72,11,122,133,178,61,78,244,167,244,250,267,233,294,300,239,272,278,272,283,250,111,133,117,61,161,89,56,50,-11,11,28,-128,-22,-50,211,206,206,250,250,211,250,300,278,289,283,267,194,178,100,183,244,150,200,111,122,6,67,-17,67,33,-22,-6,-33,89,6,172,122,56,172,50,211,261,167,194,200,317,300,250,333,328,317,294,344,311,211,206,189,156,106,28,78,144,0,33,-122,-61,-22,-61,128,-17,-28,94,111,100,122,139,200,222,194,311,256,233,261,289,300,317,233,267,283,239,167,183,189,244,106,50,200,-22,128,-11,17,-17,-94,-33,117,78,61,167,233,256,267,261,283,206,206,306,289,317,311,311,267,311,256,144,183,133,183,67,44,6,17,-39,-28,94,-22,-6,-11,-11,172,111,244,61,228,217,150,217,311,261,222,300,272,283,311,267,300,256,239,150,250,122,128,139,61,28,111,6,56,33,6,17,11,-6,28,67,50,117,44,194,156,167,272,278,306,233,261,244,322,317,278,272,256,256,261,178,267,139,194,89,150,167,94,106,-22,11,-72,78,-56,11,-33,106,-11,194,117,50,128,222,222,311,167,311,206,339,322,256,239,239,211,139,139,111,106,111,61,94,-39,117,22,39,17,-39,-44,6,28,28,61,61,94,100,150,278,250,256,278,228,306,300,272,206,222,267,272,194,139,156,239,228,156,183,72,0,78,50,100,-28,-6,17,67,100,67,150,178,172,161,183,244,228,256,217,256,289,294,278,183,256,183,167,244,150,133,72,50,39,233,78,11],"type":"box","name":"USC00300055","marker":{"color":"rgba(201,152,157,1)","line":{"color":"rgba(201,152,157,1)"}},"line":{"color":"rgba(201,152,157,1)"},"xaxis":"x","yaxis":"y","frame":null},{"fillcolor":"rgba(175,154,200,0.5)","x":["USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063","USC00300063"],"y":[33,39,133,161,61,94,233,222,317,278,178,261,250,283,222,283,278,278,256,289,178,128,128,183,128,117,67,222,122,194,172,139,239,206,283,206,272,294,278,200,211,200,233,217,139,172,117,100,11,156,56,222,228,111,122,278,311,239,217,333,283,300,244,294,306,200,189,233,211,11,17,100,89,0,44,111,161,156,144,178,244,150,356,250,294,294,289,289,311,178,294,217,211,150,167,217,244,78,0,39,78,178,283,289,289,233,289,317,311,289,278,272,294,239,167,178,150,233,-17,-11,239,50,128,194,211,217,267,261,228,233,233,261,211,278,256,17,200,167,178,206,33,44,83,167,39,156,83,61,167,250,150,300,244,272,211,272,222,261,189,33,172,83,167,150,106,128,56,39,144,161,89,350,244,306,278,239,272,189,183,206,94,206,94,156,144,122,-67,50,11,78,161,72,122,217,183,228,222,122,261,194,244,294,306,272,200,233,211,161,150,150,206,44,211,-6,-78,-150,-78,-39,144,78,139,133,244,239,261,267,228,283,294,244,183,183,283,156,67,100,200,78,33,39,22],"type":"box","name":"USC00300063","marker":{"color":"rgba(175,154,200,1)","line":{"color":"rgba(175,154,200,1)"}},"line":{"color":"rgba(175,154,200,1)"},"xaxis":"x","yaxis":"y","frame":null},{"fillcolor":"rgba(226,148,184,0.5)","x":["USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085","USC00300085"],"y":[-67,-28,56,-111,61,72,-22,-22,83,50,161,133,222,161,261,250,294,233,233,239,217,261,256,200,194,250,100,144,178,139,172,33,-11,39,-33,22,28,-144,-56,50,-56,17,6,72,33,89,50,172,139,222,183,256,233,189,211,289,233,239,261,244,178,217,172,144,239,161,189,117,100,0,61,-6,50,6,-11,-17,-39,22,-11,167,89,72,94,56,161,178,94,139,239,311,222,261,317,256,261,239,267,278,194,117,261,228,94,178,0,128,-11,28,33,-17,-72,-150,-22,89,72,-50,-50,78,78,89,83,267,144,183,128,294,250,239,222,239,228,289,233,261,200,194,89,172,206,228,72,83,167,-28,106,-33,0,-39,-22,-39,-39,139,-17,89,122,239,211,161,222,211,250,222,156,233,267,244,256,250,294,233,256,122,244,144,150,172,178,100,39,72,56,-50,44,0,50,-50,-39,78,0,128,-28,211,6,172,211,167,194,283,233,194,233,233,283,250,250,267,150,178,183,194,150,89,161,94,33,11,22,28,6,-44,78,-56,6,-72,17,106,22,78,117,167,139,139,278,233,250,217,322,306,278,239,267,222,233,206,128,106,139,167,144,61,89,144,211,144,128,122,233,267,294,344,244,322,289,244,222,178,206,244,17,78,50,72,39,17,-44,6,72,-61,44,22,133,150,172,128,128,89,283,200,239,211,294,244,256,300,256,167,161,178,256,211,106,167,22,-33,111,161,233,156,167,189,189,317,222,272,244,267,278,239,256,211,256,178,211,200,106,211,28,133,67,111,39],"type":"box","name":"USC00300085","marker":{"color":"rgba(226,148,184,1)","line":{"color":"rgba(226,148,184,1)"}},"line":{"color":"rgba(226,148,184,1)"},"xaxis":"x","yaxis":"y","frame":null},{"fillcolor":"rgba(176,208,99,0.5)","x":["USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093","USC00300093"],"y":[244,94,39,267,211,261,239,244,250,267,244,239,272,256,256,200,261,111,150,183,122,0,22,22,183,278,150,211,228,194,206,294,256,250,244,250,250,261,167,206,183,206,161,61,111,111,94,72,94,56,261,150,194,183,211,272,306,222,306,283,278,267,294,289,178,178,172,139,94,72,178,100,156,117,178,211,289,256,267,267,294,267,256,222,178,128,222,139,178,167,150,167,206,261,228,228,233,272,239,294,278,294,239,283,139,250,156,194,183,144,89,217,256,250,200,261,178,300,244,294,239,256,183,222,167,194,183,-22,-6,-67,56,0,72,-17,-6,161,11,100,211,83,222,244,267,211,256,261,300,306,267,239,261,194,239,139,144,117,144,122,-22,0,-11,17,-44,-11,-228,-50,28,-44,267,228,333,172,278,194,300,283,261,200,78,83,67,61,67,83,22,56,-28,11,83,161,133,194,161,183,233,183,167,300,261,239,311,300,278,244,217,228,83,89,211,178,106,50,11,-28,128,183,117,56,183,144,133,156,211,194,256,200,211,261,183,244,172,239,206,72,72,28,100,78,67,-78],"type":"box","name":"USC00300093","marker":{"color":"rgba(176,208,99,1)","line":{"color":"rgba(176,208,99,1)"}},"line":{"color":"rgba(176,208,99,1)"},"xaxis":"x","yaxis":"y","frame":null},{"fillcolor":"rgba(227,217,62,0.5)","x":["USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183","USC00300183"],"y":[-67,50,0,11,128,100,39,-11,194,211,122,156,222,156,222,250,256,261,300,289,239,267,211,244,228,189,228,206,167,128,189,106,22,-22,128,-67,-17,44,-61,-44,256,189,289,267,256,239,239,267,278,294,194,289,233,228,250,178,178,256,72,167,50,11,33,100,89,72,56,-61,-28,-33,28,-17,94,100,56,67,78,144,156,211,183,250,211,244,217,256,289,239,289,239,239,211,206,128,89,139,28,139,-39,11,0,-44,28,6,139,-39,-11,-28,100,78,72,194,167,94,228,272,161,194,189,278,228,250,222,206,183,256,228,150,233,150,111,6,-33,100,128,-28,-50,-39,-39,56,78,-44,44,167,289,183,256,244,161,156,194,267,228,267,289,250,211,278,250,178,194,200,72,139,61,100,0,-78,-6,-94,-17,28,-50,-17,17,22,56,111,67,217,267,256,256,211,256,172,294,239,294,233,256,178,239,189,200,194,67,150,100,33,89,17,33,-22,-6,-50,17,11,44,-28,61,189,17,144,311,89,144,222,217,278,272,250,183,278,283,306,183,206,144,139,194,183,61,183,133,133,-17,33,0,-128,-22,-17,-61,17,-44,6,-33,222,100,39,100,156,250,72,167,311,222,294,306,239,322,306,194,256,250,194,200,56,28,94,39,33,6,-78,56,-106,17,33,-94,28,-83,-78,67,161,67,133,178,61,222,228,178,194,278,211,267,217,244,256,239,261,228,178,133,72,217,100,111,-17,-11,-94,33,61,17,-11,106,33,100,261,56,78,144,306,144,211,183,178,283,222,278,244,278,272,233,250,222,283,89,211,178,167,206,6,128,56,0,-33],"type":"box","name":"USC00300183","marker":{"color":"rgba(227,217,62,1)","line":{"color":"rgba(227,217,62,1)"}},"line":{"color":"rgba(227,217,62,1)"},"xaxis":"x","yaxis":"y","frame":null},{"fillcolor":"rgba(245,207,100,0.5)","x":["USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220","USC00300220"],"y":[-89,11,-50,11,128,89,0,-17,200,222,89,161,228,156,244,244,256,256,294,272,228,256,189,239,211,178,211,178,156,117,183,111,11,-6,11,6,72,-56,-22,28,-61,39,33,61,94,28,94,183,189,222,178,183,222,283,306,267,261,250,211,167,289,189,200,128,117,211,117,139,211,-33,39,6,6,33,11,-61,122,89,39,-56,106,61,111,233,189,222,161,261,283,289,267,283,278,222,261,256,261,283,228,128,106,206,178,72,67,-6,-56,17,-39,-67,-44,-94,128,-22,-89,33,67,11,78,267,189,156,189,283,244,200,244,261,239,272,261,239,178,211,222,139,217,133,89,11,28,39,117,33,122,-44,-67,-6,22,83,11,22,106,11,122,267,144,272,194,222,200,250,239,222,267,244,300,228,217,256,278,228,206,206,100,94,172,17,-6,-94,-72,-100,72,-28,-6,-44,-56,-67,122,156,144,144,250,222,250,256,194,278,233,289,244,261,261,283,206,228,156,233,194,161,128,89,17,83,44,-44,-11,-6,-11,-50,11,-6,44,-28,17,156,33,128,200,89,228,239,267,206,239,217,311,294,267,244,261,228,233,206,222,117,178,128,128,72,83,117,-6,-28,-72,61,-83,-67,44,-17,100,-17,244,100,133,89,272,156,256,228,228,217,344,294,267,306,261,222,189,167,194,83,189,39,167,117,128,0,28,33,-72,22,72,-72,-11,-28,39,128,128,139,128,106,172,156,189,244,178,261,272,250,278,244,250,244,239,211,256,189,106,28,189,33,72,-33,-33,-139,39,33,0,11,100,33,6,117,50,128,144,167,211,233,200,128,244,250,261,272,283,306,244,283,278,222,106,194,244,244,117,156,183,94,0,39,-61],"type":"box","name":"USC00300220","marker":{"color":"rgba(245,207,100,1)","line":{"color":"rgba(245,207,100,1)"}},"line":{"color":"rgba(245,207,100,1)"},"xaxis":"x","yaxis":"y","frame":null},{"fillcolor":"rgba(219,192,155,0.5)","x":["USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321","USC00300321"],"y":[167,200,156,167,83,11,56,67,72,144,-72,-150,-22,-39,22,72,100,111,67,117,289,267,344,233,278,239,239,239,300,267,61,17,-11,-6,-50,-67,17,22,106,200,117,167,144,128,206,194,183,211,267,194,278,283,261,228,228,233,261,183,211,172,167,106,50,6,44,78,11,-6,0,6,-6,33,-33,33,-78,50,156,144,261,144,256,139,333,233,278,244,311,306,261,289,339,161,244,239,200,178,211,117,50,111,144,83,150,106,256,233,278,294,289,289,267,228,222,278,167,183,172,267,200,122,6,-28,-139,50,39,17,39,83,-33,117,22,183,289,261,289,267,222,278,256,272,200,272,256,167,178,200,133,150,44,22,94,67,33,106],"type":"box","name":"USC00300321","marker":{"color":"rgba(219,192,155,1)","line":{"color":"rgba(219,192,155,1)"}},"line":{"color":"rgba(219,192,155,1)"},"xaxis":"x","yaxis":"y","frame":null},{"fillcolor":"rgba(179,179,179,0.5)","x":["USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331","USC00300331"],"y":[-72,-78,-6,44,-94,156,22,67,72,272,133,128,161,156,256,200,250,283,272,344,217,300,272,283,250,217,161,122,139,150,133,50,78,0,-44,-78,6,-50,-117,39,-6,0,6,-6,28,111,211,206,211,256,300,294,289,233,156,200,300,228,222,178,194,194,61,128,89,-72,0,28,-50,-50,-22,72,-6,72,144,56,150,89,189,217,256,233,322,328,344,283,278,267,161,278,250,283,244,228,172,133,133,122,67,28,-78,-39,-17,-33,-39,-78,100,-11,-72,22,28,100,72,206,100,256,206,311,283,256,222,250,244,283,217,278,172,161,122,150,244,161,139,106,144,6,61,-28,17,11,-11,-11,72,100,150,283,194,200,200,250,278,233,294,178,328,250,211,261,294,239,228,144,89,122,139,11,44,-50,11,44,122,-89,-11,67,-39,183,-67,294,44,244,200,183,283,294,206,178,261,261,306,311,272,272,161,178,167,172,156,94,167,117,61,94,39,28,33,11,67,-44,0,-139,17,133,39,111,106,194,156,156,150,217,239,306,311,250,283,317,317,294,200,194,256,206,94,139,150,172,56,6,11,106,11,-83,39,-56,-56,61,-33,94,17,172,156,67,122,189,256,94,211,350,244,333,317,283,339,361,272,267,222,217,178,44,128,56,94,50,44,-128,56,22,-89,44,-72,-78,67,94,89,111,150,189,306,272,267,256,272,244,306,211,167,239,244,278,178,178,194,278,222,122,189,72,-6,-44,-50,-39,44,11,28,133,-44,272,-6,56,89,211,156,150,189,300,267,300,283,189,289,250,294,211,317,283,183,200,267,150,178,56,11,56,89,50,144],"type":"box","name":"USC00300331","marker":{"color":"rgba(179,179,179,1)","line":{"color":"rgba(179,179,179,1)"}},"line":{"color":"rgba(179,179,179,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.20000000000000001,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot","plotly_sunburstclick"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
