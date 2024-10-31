@@ -4,10 +4,31 @@ output:
   flexdashboard::flex_dashboard:
     orientation: columns
     vertical_layout: fill
+    source: embed
 ---
 
 ```{r setup, include=FALSE}
 library(flexdashboard)
+library(tidyverse)
+library(plotly)
+library(readr)
+library(dplyr)
+```
+
+```{r ,warning=FALSE}
+nynoaa <- read_csv("data/nynoaadat.csv",
+                   col_names = TRUE,
+                   na = c("","NA")) |>
+          janitor::clean_names() |>
+          drop_na()
+
+id_10 = unique(nynoaa$id)[1:10]
+nynoaa$year = year(nynoaa$date)
+nynoaa$month = month(nynoaa$date)
+
+nynoaa = nynoaa|>
+  filter(id==id_10) |>
+  filter(year>=1981 & year <= 1990)
 ```
 
 Column {data-width=650}
@@ -16,7 +37,14 @@ Column {data-width=650}
 ### Chart A
 
 ```{r}
-
+ nynoaa |>
+  filter(year == "1981")|>
+  group_by(id)|>
+  summarise(total_prcp=sum(prcp))|>
+  plot_ly(
+    x = ~id, y = ~total_prcp, type = "bar")|>
+    layout(title = "Total Precipitation (tenths of mm) in 1981 in Different Stations")
+ 
 ```
 
 Column {data-width=350}
@@ -25,12 +53,19 @@ Column {data-width=350}
 ### Chart B
 
 ```{r}
-
+ nynoaa |>
+  filter(year == "1990")|>
+  plot_ly(
+    x = ~month, y = ~prcp, type = "scatter", mode = "markers",
+    color = ~id,alpha = 0.5)|>
+    layout(title = "Monthly Precipitation (tenths of mm) in 1990")
 ```
 
 ### Chart C
 
 ```{r}
-
+nynoaa |> 
+  plot_ly(x = ~id, y = ~tmax, color = ~id, type = "box")|>
+  layout(title = "Boxplot for Maximum temperature from 1981 to 1990 in different stations")
 ```
 

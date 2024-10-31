@@ -33,7 +33,7 @@ nynoaa = nynoaa|>
 ```
 
 Create new year variable and month variable, and then make a bar plot about Total Precipitation (tenths of mm) in 1981 in Different Stations
-```{r ,warning=FALSE}
+```{r}
 nynoaa |>
   filter(year == "1981")|>
   group_by(id)|>
@@ -45,7 +45,7 @@ nynoaa |>
 ```
 
 Make a plot about Precipitation (tenths of mm) in 1990 in some special Weather station ID.  
-```{r ,warning=FALSE}
+```{r}
 nynoaa |>
   filter(year == "1990")|>
   plot_ly(
@@ -55,7 +55,7 @@ nynoaa |>
 ```
 
 Make Boxplot for Maximum temperature from 1981 to 1990 in different stations.
-```{r ,warning=FALSE}
+```{r}
   nynoaa |> 
   plot_ly(x = ~id, y = ~tmax, color = ~id, type = "box")|>
   layout(title = "Boxplot for Maximum temperature from 1981 to 1990 in different stations")
